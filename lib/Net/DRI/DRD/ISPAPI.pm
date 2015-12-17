@@ -126,6 +126,12 @@ sub api_call {
  my ($self,$ndr,$c,$cs)=@_;
  return $ndr->process('api','call',[$c,$cs]);
 }
+sub message_retrieve
+{
+ my ($self,$ndr,$id)=@_;
+ my $rc=$ndr->process('message','ispapiretrieve',[$id]);
+ return $rc;
+}
 
 ####################################################################################################
 1;

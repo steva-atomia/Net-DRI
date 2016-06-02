@@ -80,6 +80,8 @@ sub validate
 
  if (!$change)
  {
+   Net::DRI::Exception::usererr_insufficient_parameters('Invalid contact information: name/city/cc/email/srid mandatory') unless (scalar(($self->name())[1]) && scalar(($self->city())[1]) && scalar(($self->cc())[1]) && $self->email() && $self->srid());
+
   push @errs,'srid' unless Net::DRI::Util::xml_is_token($self->srid(),3,16);
  }
 

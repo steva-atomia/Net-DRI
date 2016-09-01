@@ -1,4 +1,5 @@
-libnet-dri-perl (0.96-46atomia) unstable; urgency=low
+libnet-dri-perl (0.96-47atomia) unstable; urgency=low
+  * Added .FI EPP extension.
   * Changed EURid extension versions to correspond with EURid API changes
   * Support for specifying OpenSRS handle when renewing
   * Fixed renewal in Hexonet/ISPAPI driver since it treated 12 months as the

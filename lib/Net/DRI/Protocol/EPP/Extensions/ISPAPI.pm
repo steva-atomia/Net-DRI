@@ -71,7 +71,7 @@ See the LICENSE file that comes with this distribution for more details.
 
 ####################################################################################################
 
-sub default_extensions { return qw/ISPAPI::KeyValue/; }
+sub default_extensions { return qw/ISPAPI::KeyValue GracePeriod/; }
 
 ####################################################################################################
 1;

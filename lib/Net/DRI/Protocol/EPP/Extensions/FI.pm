@@ -72,15 +72,11 @@ See the LICENSE file that comes with this distribution for more details.
 sub setup
 {
     my ($self,$rp,$params)=@_;
-    #my $version=$self->version();
-    #$self->{"iis_extension_version"} = (defined($params) && ref($params) eq "HASH" && defined($params->{"iis_extension_version"})) ? $params->{"iis_extension_version"} : "1.1";
-    #$self->ns({iis=>["urn:se:iis:xml:epp:iis-" . $self->{"iis_extension_version"}, "iis-" . $self->{"iis_extension_version"} . ".xsd"]});
-    #$self->factories('message',sub { my $m = Net::DRI::Protocol::EPP::Extensions::SE::Message->new(@_); $m->ns( $self->ns() ); $m->version($version); return $m; } );
+	
     return;
 }
 
-sub default_extensions { return qw/FI::Contact FI::Domain/; }
-#sub default_extensions { return qw/FI::Extensions/; }
+sub default_extensions { return qw/FI::Contact FI::Domain SecDNS/; }
 
 ####################################################################################################
 1;

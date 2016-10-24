@@ -122,5 +122,10 @@ sub account_list_domains
  return $rc;
 }
 
+sub api_call {
+ my ($self,$ndr,$c,$cs)=@_;
+ return $ndr->process('api','call',[$c,$cs]);
+}
+
 ####################################################################################################
 1;

@@ -94,6 +94,7 @@ sub register_commands
 
 our @NS = ('http://schema.ispapi.net/epp/xml/keyvalue-1.0', 'http://schema.ispapi.net/epp/xml/keyvalue-1.0 keyvalue-1.0.xsd');
 
+sub capabilities_add { return (['domain_update','keyvalue',['set']]); }
 
 ####################################################################################################
 
@@ -127,10 +128,17 @@ sub create_keyvalue
 {
  my ($epp,$domain,$rd)=@_;
  my $mes=$epp->message();
-
- return unless Net::DRI::Util::has_key($rd,'keyvalue');
-
- return create_keyvalue_extension($epp, $rd->{keyvalue});
+ 
+ my $keyvalue = undef;
+ eval {
+	$keyvalue = $rd->set('keyvalue');
+ };
+ my $condition = defined $keyvalue && $keyvalue && ref $keyvalue eq 'HASH';
+ return unless (Net::DRI::Util::has_key($rd,'keyvalue') || $condition);
+ unless($condition){
+   $keyvalue = $rd->{keyvalue};
+ } 
+ return create_keyvalue_extension($epp, $keyvalue);
 }
 
 

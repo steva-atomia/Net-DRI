@@ -1,4 +1,7 @@
-libnet-dri-perl (0.96-48atomia) unstable; urgency=low
+libnet-dri-perl (0.96-49atomia) unstable; urgency=low
+  * Made the CentralNic driver accept arbitrary TLDs.
+  * Added generic Afilias and Neustar drivers based on INFO / BIZ but allowing
+    arbitrary TLDs.
   * Hexonet improvements.
   * Added .FI EPP extension.
   * Changed EURid extension versions to correspond with EURid API changes

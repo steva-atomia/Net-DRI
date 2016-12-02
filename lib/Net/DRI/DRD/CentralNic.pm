@@ -81,7 +81,7 @@ sub new
 
 sub periods      { return map { DateTime::Duration->new(years => $_) } (2..10); }
 sub name         { return 'CentralNic'; }
-sub tlds         { return (qw/la uk.net se.net gb.net/,map { $_.'.com' } qw/eu uk us cn de jpn kr no za br ar ru sa se hu gb qc uy ae/); } ## see https://www.centralnic.com/names/domains
+sub tlds         { return (qw/*/); }
 sub object_types { return ('domain','ns','contact'); }
 sub profile_types { return qw/epp/; }
 

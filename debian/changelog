@@ -1,5 +1,6 @@
 libnet-dri-perl (0.96-49atomia) unstable; urgency=low
-  * Made the CentralNic driver accept arbitrary TLDs.
+  * Made the CentralNic driver accept arbitrary TLDs and 1 year durations, and
+    enable DNSSEC and rgp extensions.
   * Added generic Afilias and Neustar drivers based on INFO / BIZ but allowing
     arbitrary TLDs.
   * Hexonet improvements.

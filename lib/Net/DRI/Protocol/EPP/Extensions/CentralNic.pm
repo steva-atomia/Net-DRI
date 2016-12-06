@@ -77,7 +77,7 @@ sub setup
  return;
 }
 
-sub default_extensions { return qw/CentralNic::TTL CentralNic::WebForwarding CentralNic::Release/; }
+sub default_extensions { return qw/CentralNic::TTL CentralNic::WebForwarding CentralNic::Release GracePeriod SecDNS11/; }
 
 ####################################################################################################
 1;

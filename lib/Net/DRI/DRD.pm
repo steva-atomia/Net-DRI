@@ -228,11 +228,13 @@ sub check_name
  my ($self,$ndr,$data,$dots)=@_;
  ($data,$dots)=($ndr,$data) unless (defined($ndr) && $ndr && (ref($ndr) eq 'Net::DRI::Registry'));
 
+ my $wildcard_tld = scalar(grep { $_ eq '*' } $self->tlds());
+
  return 'UNDEFINED_NAME' unless defined $data;
  return 'ZERO_LENGTH_NAME' unless length $data;
  return 'NON_SCALAR_NAME' unless !ref($data);
  return 'INVALID_HOSTNAME' unless Net::DRI::Util::is_hostname($data);
- if (defined($dots) && $data!~m/\.e164\.arpa$/)
+ if (defined($dots) && $data!~m/\.e164\.arpa$/ && $wildcard_tld != 1)
  {
   my @d=split(/\./,$data);
   my @ok=ref($dots)? @$dots : ($dots);

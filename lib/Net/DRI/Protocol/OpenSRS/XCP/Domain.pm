@@ -257,7 +257,7 @@ sub sw_register
  foreach (qw/auto_renew affiliate_id f_lock_domain f_parkp f_whois_privacy/) {
   $attr->{$_} = ($rd->{$_} ? 1 : 0 ) if Net::DRI::Util::has_key($rd, $_);
  }
- foreach (qw/affiliate_id reg_domain encoding_type tld_data/) {
+ foreach (qw/affiliate_id reg_domain encoding_type tld_data messaging_language/) {
   $attr->{$_} = ($rd->{$_}) if Net::DRI::Util::has_key($rd, $_);
  }
 

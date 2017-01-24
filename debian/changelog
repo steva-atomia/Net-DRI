@@ -1,4 +1,5 @@
-libnet-dri-perl (0.96-49atomia) unstable; urgency=low
+libnet-dri-perl (0.96-50atomia) unstable; urgency=low
+  * Added support for messaging language to be set for OpenSRS.
   * Made the CentralNic driver accept arbitrary TLDs and 1 year durations, and
     enable DNSSEC and rgp extensions.
   * Added generic Afilias and Neustar drivers based on INFO / BIZ but allowing

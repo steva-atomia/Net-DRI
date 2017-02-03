@@ -32,6 +32,8 @@ __PACKAGE__->register_attributes(qw(type identity mobilephone organization rolec
 
 =pod
 
+=encoding utf8
+
 =head1 NAME
 
 Net::DRI::Data::Contact::NO - Handle .NO contact data for Net::DRI

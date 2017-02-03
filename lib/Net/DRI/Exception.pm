@@ -109,14 +109,14 @@ sub backtrace
  my (@bt1,@bt2);
  foreach (split(/\n/,$m)) { if (/^\s*Net::DRI::(?:BaseClass|Exception)::/) { push @bt1,$_; } else { push @bt2,$_; } }
  shift(@bt2) if ($bt2[0]=~m!Net/DRI/BaseClass!);
- shift(@bt2) if ($bt2[0]=~m!Net/DRI/Exception!);
+ shift(@bt2) if ($bt2[0]=~m|Net/DRI/Exception(?!\.t)|);
  my ($f,$l);
  if (@bt1)
  {
-  ($f,$l)=(pop(@bt1)=~m/ called at (\S+) line (\d+)\s*$/);
+  ($f,$l)=(pop(@bt1)=~m/ called at (\S+) line (\d+)\.?\s*$/);
  } else
  {
-  ($f,$l)=(shift(@bt2)=~m/ at (\S+) line (\d+)\s*$/);
+  ($f,$l)=(shift(@bt2)=~m/ at (\S+) line (\d+)\.?\s*$/);
  }
  my @b;
  push @b,sprintf('EXCEPTION %d@%s from line %d of file %s:',$self->code(),$self->area(),$l,$f);

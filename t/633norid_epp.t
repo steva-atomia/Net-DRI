@@ -42,7 +42,7 @@ my %facetsh = (
 my $no_facet = { facets => \%facetsh };
 
 my $NO_FACET=
-'<extension><no-ext-epp:extended xmlns:no-ext-epp="http://www.norid.no/xsd/no-ext-epp-1.0" xsi:schemaLocation="http://www.norid.no/xsd/no-ext-epp-1.0 no-ext-epp-1.0.xsd"><no-ext-epp:facet name="skip-manual-review">1</no-ext-epp:facet><no-ext-epp:facet name="impersonate-registrar">reg9094</no-ext-epp:facet></no-ext-epp:extended></extension>';
+'<extension><no-ext-epp:extended xmlns:no-ext-epp="http://www.norid.no/xsd/no-ext-epp-1.0" xsi:schemaLocation="http://www.norid.no/xsd/no-ext-epp-1.0 no-ext-epp-1.0.xsd"><no-ext-epp:facet name="impersonate-registrar">reg9094</no-ext-epp:facet><no-ext-epp:facet name="skip-manual-review">1</no-ext-epp:facet></no-ext-epp:extended></extension>';
 
 my $ddomain = "example3.no";
 my $fdomain = "facet-$ddomain";

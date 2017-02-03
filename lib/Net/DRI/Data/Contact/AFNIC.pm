@@ -33,6 +33,8 @@ __PACKAGE__->register_attributes(qw(firstname legal_form legal_form_other legal_
 
 =pod
 
+=encoding utf8
+
 =head1 NAME
 
 Net::DRI::Data::Contact::AFNIC - Handle AFNIC contact data for Net::DRI

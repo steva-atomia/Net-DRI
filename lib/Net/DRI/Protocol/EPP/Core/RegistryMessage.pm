@@ -95,6 +95,15 @@ sub pollreq
  $mes->command([['poll',{op=>'req'}]]);
 }
 
+## elements in @prio come out first, in the same order as given (but only those existing in %$rh), then other keys of %$rh are reordered
+sub _sort
+{
+ my ($rh, @prio) = @_;
+ @prio = grep { exists $rh->{$_} } @prio;
+ my %prio = map { $_ => 1 } @prio;
+ return (@prio, sort { $a cmp $b } grep { ! exists $prio{$_} } keys %$rh);
+}
+
 ## We take into account all parse functions, to be able to parse any result
 sub parse_poll
 {
@@ -115,20 +124,24 @@ sub parse_poll
  my %info;
  my $h=$po->commands();
 
- while (my ($htype,$hv)=each(%$h))
+ ## Because of Perl hash keys randomization, we must make sure to order types first, prefering core objects,
+ ## and then order actions, to make sure review_complete is done first (as it will setup $toname & such)
+ foreach my $htype (_sort($h, qw/domain session notifications account contact message host/))
  {
-  while (my ($haction,$hv2)=each(%$hv))
+  my $hv=$h->{$htype};
+  foreach my $haction (_sort($hv, 'review_complete'))
   {
-   foreach my $t (@$hv2)
+   next if $htype eq 'message' && $haction eq 'result';
+   foreach my $t (@{$hv->{$haction}})
    {
     my $pf=$t->[1];
     next unless (defined($pf) && (ref($pf) eq 'CODE'));
     $info{_processing_parse_poll}=1;
     $pf->($po,$totype,$toaction,$toname,\%info);
     delete $info{_processing_parse_poll};
-    next unless keys(%info);
-    next if defined($toname); ## this must be there and not optimised as a last call further below as there can be multiple information to parse for a given $toname
-    my @tmp=keys %info;
+    my @tmp=grep { $_ ne '_internal' } keys %info;
+    next unless @tmp;
+    next if defined $toname; ## this must be there and not optimised as a last call further below as there can be multiple information to parse for a given $toname
     Net::DRI::Exception::err_assert('EPP::parse_poll can not handle multiple types !') unless @tmp==1;
     $totype=$tmp[0];
     @tmp=keys %{$info{$totype}};
@@ -149,6 +162,13 @@ sub parse_poll
  while(my ($k,$v)=each(%{$info{$totype}->{$toname}}))
  {
   $rd->{$k}=$v;
+ }
+ if (exists $info{message}->{$msgid})
+ {
+  while(my ($k,$v)=each(%{$info{message}->{$msgid}}))
+  {
+   $rd->{$k}=$v;
+  }
  }
  ## Also update data about the queried object, for easier access
  while(my ($k,$v)=each(%$rd))

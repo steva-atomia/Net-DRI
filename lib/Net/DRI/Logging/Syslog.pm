@@ -78,6 +78,8 @@ __END__
 
 =pod
 
+=encoding utf8
+
 =head1 NAME
 
 Net::DRI::Logging::Syslog - SYSLOG Logging Operations for Net::DRI

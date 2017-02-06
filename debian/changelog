@@ -1,4 +1,5 @@
-libnet-dri-perl (0.96-50atomia) unstable; urgency=low
+libnet-dri-perl (0.96-51atomia) unstable; urgency=low
+  * Support newer perl versions to be able to support Ubuntu 16.04+.
   * Added support for messaging language to be set for OpenSRS.
   * Made the CentralNic driver accept arbitrary TLDs and 1 year durations, and
     enable DNSSEC and rgp extensions.

@@ -1,4 +1,6 @@
-libnet-dri-perl (0.96-51atomia) unstable; urgency=low
+libnet-dri-perl (0.96-52atomia) unstable; urgency=low
+  * Eurid changed domain-ext namespace version to 2.1.
+  * Relaxed AT contact id regex to work with both test and live.
   * Support newer perl versions to be able to support Ubuntu 16.04+.
   * Added support for messaging language to be set for OpenSRS.
   * Made the CentralNic driver accept arbitrary TLDs and 1 year durations, and

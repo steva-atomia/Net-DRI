@@ -75,8 +75,8 @@ sub setup
  my $version=$self->version();
 
  my $default_ns_versions = {
-		'domain-ext_version' => '2.0',
-		'domain-ext_version_xsd' => '2.0',
+		'domain-ext_version' => '2.1',
+		'domain-ext_version_xsd' => '2.1',
 		'contact-ext_version' => '1.1',
 		'contact-ext_version_xsd' => '1.1',
 		'nsgroup_version' => '1.1',

@@ -80,6 +80,7 @@ sub register_commands
           create => [ \&create_keyvalue, \&parse_keyvalue ],
           update => [ \&create_keyvalue, \&parse_keyvalue ],
           transfer => [ \&create_keyvalue, \&parse_keyvalue ],
+          transfer_request => [ \&create_keyvalue, \&parse_keyvalue ],
          );
  my %api=(
           call => [ \&create_keyvalue_extension, \&parse_keyvalue ],

@@ -1,4 +1,6 @@
-libnet-dri-perl (0.96-52atomia) unstable; urgency=low
+libnet-dri-perl (0.96-53atomia) unstable; urgency=low
+  * Added poll message support for Hexonet.
+  * Fixed so that key-values are added on transfers as well.
   * Eurid changed domain-ext namespace version to 2.1.
   * Relaxed AT contact id regex to work with both test and live.
   * Support newer perl versions to be able to support Ubuntu 16.04+.

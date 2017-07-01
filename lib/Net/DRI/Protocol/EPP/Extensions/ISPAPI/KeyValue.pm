@@ -127,18 +127,34 @@ sub create_keyvalue_extension
 
 sub create_keyvalue
 {
- my ($epp,$domain,$rd)=@_;
+ my ($epp,$domain,$rd,$rdu)=@_;
  my $mes=$epp->message();
  
  my $keyvalue = undef;
  eval {
+	# check dri_params for keyvalues
 	$keyvalue = $rd->set('keyvalue');
  };
- my $condition = defined $keyvalue && $keyvalue && ref $keyvalue eq 'HASH';
- return unless (Net::DRI::Util::has_key($rd,'keyvalue') || $condition);
- unless($condition){
-   $keyvalue = $rd->{keyvalue};
- } 
+ 
+ unless (defined $keyvalue && $keyvalue && ref $keyvalue eq 'HASH') {
+	if (Net::DRI::Util::has_key($rd,'keyvalue')) {
+		# keyvalues found in rd
+		$keyvalue = $rd->{keyvalue};
+	} else {
+		# keyvalues not found in rd, check in rdu because for domain_update, dri_params are on fourth place.
+		eval {
+			$keyvalue = $rdu->set('keyvalue');
+		};
+		unless (defined $keyvalue && $keyvalue && ref $keyvalue eq 'HASH') {
+			if (Net::DRI::Util::has_key($rdu,'keyvalue')) {
+				$keyvalue = $rdu->{keyvalue};
+			}
+		}
+	}
+ }
+ return unless (defined $keyvalue && $keyvalue && ref $keyvalue eq 'HASH');
+ 
+ #keyvalues present
  return create_keyvalue_extension($epp, $keyvalue);
 }
 

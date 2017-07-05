@@ -1,4 +1,5 @@
-libnet-dri-perl (0.96-53atomia) unstable; urgency=low
+libnet-dri-perl (0.96-54atomia) unstable; urgency=low
+  * Fixed so that keyvalues are read on domain_update command also.
   * Added poll message support for Hexonet.
   * Fixed so that key-values are added on transfers as well.
   * Eurid changed domain-ext namespace version to 2.1.

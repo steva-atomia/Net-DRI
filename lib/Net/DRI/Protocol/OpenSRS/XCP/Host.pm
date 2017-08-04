@@ -88,6 +88,20 @@ sub build_msg_cookie
  $msg->command(\%r);
 }
 
+sub get_domain_from_ns
+{
+ my ($ns, $cookie)=@_;
+ my $domain = undef;
+ unless ($cookie eq 'net_dri_no_cookie') {
+  return $domain;
+ }
+ my @parts = split /\./, $ns;
+ if (scalar(@parts) >= 2) {
+  $domain = $parts[-2] . '.' . $parts[-1]; # join last two elements
+ }
+ return $domain;
+}
+
 sub check
 {
  my ($xcp,$ns)=@_;
@@ -122,6 +136,10 @@ sub create
  my $attr = {};
  my @details = $ns->get_details(1);
  $attr->{name} = $details[0];
+ my $domain = get_domain_from_ns($attr->{name}, $rd->{cookie});
+ if (defined($domain)) {
+  $attr->{domain} = $domain;
+ }
  my $ips = $details[1];
  Net::DRI::Exception::usererr_insufficient_parameters('host has to have at least one IPv4 address') unless defined($ips) && ref($ips) eq "ARRAY" && scalar(@$ips) > 0;
  $attr->{ipaddress} = $ips->[0];
@@ -146,7 +164,14 @@ sub update
 
  my $msg=$xcp->message();
  build_msg_cookie($msg,'modify',$rd->{cookie},$rd->{registrant_ip});
- $msg->command_attributes({ name => scalar($ns->get_details(1)), ipaddress => $change_to_ip->[0] });
+ my $attr = {};
+ $attr->{name} = scalar($ns->get_details(1));
+ $attr->{ipaddress} = $change_to_ip->[0];
+ my $domain = get_domain_from_ns($attr->{name}, $rd->{cookie});
+ if (defined($domain)) {
+  $attr->{domain} = $domain;
+ }
+ $msg->command_attributes($attr);
 }
 
 sub delete
@@ -158,8 +183,13 @@ sub delete
 
  my $msg=$xcp->message();
  build_msg_cookie($msg,'delete',$rd->{cookie},$rd->{registrant_ip});
-
- $msg->command_attributes({ name => scalar($ns->get_details(1)) });
+ my $attr = {};
+ $attr->{name} = scalar($ns->get_details(1));
+ my $domain = get_domain_from_ns($attr->{name}, $rd->{cookie});
+ if (defined($domain)) {
+  $attr->{domain} = $domain;
+ }
+ $msg->command_attributes($attr);
 }
 
 ####################################################################################################

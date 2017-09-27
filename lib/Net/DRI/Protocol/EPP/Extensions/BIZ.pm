@@ -65,7 +65,7 @@ See the LICENSE file that comes with this distribution for more details.
 
 ####################################################################################################
 
-sub default_extensions { return qw/GracePeriod SecDNS/; }
+sub default_extensions { return qw/GracePeriod SecDNS11/; }
 
 ####################################################################################################
 1;

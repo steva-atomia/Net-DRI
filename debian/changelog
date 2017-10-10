@@ -1,4 +1,5 @@
-libnet-dri-perl (0.96-55atomia) unstable; urgency=low
+libnet-dri-perl (0.96-56atomia) unstable; urgency=low
+  * Fixed BIZ and ISPAPI to use dnssec 1.1  
   * Add domain when creating OpenSRS host.
   * Fixed so that keyvalues are read on domain_update command also.
   * Added poll message support for Hexonet.

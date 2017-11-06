@@ -542,6 +542,11 @@ sub process_back
  $self->clear_info(); ## make sure we will overwrite current latest info
  $oname=_extract_oname($otype,$oaction,$self->{last_process}->[2]); ## lc() would be good here but this breaks a lot of things !
  ($rc,$ri)=$po->reaction($otype,$oaction,$res,$self->{ops}->{$trid}->[1],$oname); ## $tosend needed to propagate EPP version, for example
+
+ if($rc->trid() && $trid ne $rc->trid()){
+   Net::DRI::Exception->die(0,'transport',5,'Received TrID from the registry is different then the sent TrID.');
+ }
+
  $rc->_set_trid([ $trid ]) unless $rc->trid(); ## if not done inside Protocol::*::Message::result_status, make sure we save at least our transaction id
 
  if ($rc->is_closing() || (exists($ri->{_internal}) && exists($ri->{_internal}->{must_reconnect}) && $ri->{_internal}->{must_reconnect}))

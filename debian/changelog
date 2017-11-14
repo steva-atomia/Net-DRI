@@ -1,4 +1,5 @@
-libnet-dri-perl (0.96-57atomia) unstable; urgency=low
+libnet-dri-perl (0.96-58atomia) unstable; urgency=low
+  * Fixed processing of a wrong response from a registry
   * Added ARI IDN implementation and turned on for .BIZ 
   * Fixed BIZ and ISPAPI to use dnssec 1.1  
   * Add domain when creating OpenSRS host.

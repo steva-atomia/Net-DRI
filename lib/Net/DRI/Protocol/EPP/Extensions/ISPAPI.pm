@@ -71,7 +71,7 @@ See the LICENSE file that comes with this distribution for more details.
 
 ####################################################################################################
 
-sub default_extensions { return qw/ISPAPI::KeyValue ISPAPI::Message GracePeriod/; }
+sub default_extensions { return qw/ISPAPI::KeyValue ISPAPI::Message GracePeriod SecDNS11/; }
 
 ####################################################################################################
 1;

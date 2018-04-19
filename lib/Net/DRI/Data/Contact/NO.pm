@@ -58,7 +58,7 @@ Example: $co->type('organization')
 =head2 identity()
 
 Currently valid for type='organization' only.
-Must then be set to specify the organization number in Brønnøysund,
+Must then be set to specify the organization number in BrÃ¸nnÃ¸ysund,
 the Norwegian Business Register.
 
 Example: $co->identity({type=>'organizationNumber', value=>'987654321'});
@@ -167,9 +167,6 @@ sub validate {
             && $self->email()
             && $self->auth()
             && $self->srid();
-        Net::DRI::Exception::usererr_insufficient_parameters(
-            'Invalid contact information: org is not allowed for .NO')
-            if ( $self->org() );
         Net::DRI::Exception::usererr_insufficient_parameters(
             'Invalid contact information: type mandatory')
             unless ( $self->type() );

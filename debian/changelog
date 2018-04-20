@@ -1,4 +1,4 @@
-libnet-dri-perl (0.96-60atomia) unstable; urgency=low
+libnet-dri-perl (0.96-61atomia) unstable; urgency=low
   * Turned on DNSSEC for Hexonet
   * Fixed format of personal number for SE plugin 
   * Fixed processing of a wrong response from a registry

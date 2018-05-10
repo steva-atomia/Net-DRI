@@ -94,7 +94,7 @@ sub validate
  push @errs,'firstname' if ($self->firstname() && grep { !Net::DRI::Util::xml_is_normalizedstring($_,1,255) } ($self->firstname()));
 
  push @errs,'voice' if ($self->voice() && !Net::DRI::Util::xml_is_token($self->voice(),undef,17) && $self->voice()!~m/^\+[0-9]{1,3}\.[0-9]{1,12}(?:x\d{1,4})?$/);
- push @errs,'fax'   if ($self->fax()   && !Net::DRI::Util::xml_is_token($self->fax(),undef,17)   && $self->fax()!~m/^\+[0-9]{1,3}\.[0-9]{1,12}(?:x\d{1.4})?$/);
+ push @errs,'fax'   if ($self->fax()   && !Net::DRI::Util::xml_is_token($self->fax(),undef,17)   && $self->fax()!~m/^\+[0-9]{1,3}\.[0-9]{1,12}(?:x\d{1,4})?$/);
 
  Net::DRI::Exception::usererr_invalid_parameters('Invalid contact information: '.join('/',@errs)) if @errs;
  return 1; ## everything ok.

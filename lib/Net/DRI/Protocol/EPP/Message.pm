@@ -299,17 +299,19 @@ sub parse
      $d{qdate}=DateTime::Format::ISO8601->new()->parse_datetime(Net::DRI::Util::xml_child_content($msgq,$NS,'qDate'));
    };
    my $msgc=$msgq->getChildrenByTagNameNS($NS,'msg')->get_node(1);
-   $d{lang}=$msgc->getAttribute('lang') || 'en';
+   if(defined $msgc){
+    $d{lang}=$msgc->getAttribute('lang') || 'en';
 
-   if (grep { $_->nodeType() == 1 } $msgc->childNodes())
-   {
-    $d{content}=$msgc->toString();
-    $self->node_msg($msgc);
-   } else
-   {
-    $d{content}=$msgc->textContent();
+    if (grep { $_->nodeType() == 1 } $msgc->childNodes())
+    {
+     $d{content}=$msgc->toString();
+     $self->node_msg($msgc);
+    } else
+    {
+     $d{content}=$msgc->textContent();
+    }
+    $rinfo->{message}->{$id}=\%d;
    }
-   $rinfo->{message}->{$id}=\%d;
   }
  }
 

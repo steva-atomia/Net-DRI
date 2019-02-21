@@ -1,9 +1,5 @@
 libnet-dri-perl (0.96-64atomia) unstable; urgency=low
   * Fixed EURid EPP connection issues
-
-  -- Stefan Stankovic <stefan.stankovic@atomia.com>  Thu, 21 Feb 2019 15:35:00 +0200
-
-libnet-dri-perl (0.96-63atomia) unstable; urgency=low
   * Fixed poll command parsing
   * Fixed OpenSRS contact fax regex
   * Turned on DNSSEC for Hexonet

@@ -1,3 +1,5 @@
+libnet-dri-perl (0.96-64atomia) unstable; urgency=low
+  * Fixed EURid EPP connection issues
 libnet-dri-perl (0.96-63atomia) unstable; urgency=low
   * Fixed poll command parsing
   * Fixed OpenSRS contact fax regex

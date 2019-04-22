@@ -307,10 +307,13 @@ sub update
  $whoisstate = 'enable' if Net::DRI::Util::isa_statuslist($statusadd) && !$statusadd->can_whois();
  $whoisstate = 'disable' if Net::DRI::Util::isa_statuslist($statusdel) && !$statusdel->can_whois();
 
+ my $setrenewal = undef;
+ $setrenewal = $todo->set('auto_renew') if defined($todo->set('auto_renew'));
+
  if (defined($nsset))
  {
   Net::DRI::Exception::usererr_invalid_parameters('ns changes for set must be a Net::DRI::Data::Hosts object') unless Net::DRI::Util::isa_hosts($nsset);
-  Net::DRI::Exception::usererr_invalid_parameters('change of nameservers, contacts, lock state and whois protection is supported, but not in the same operation') if defined($contactset) || defined($lockstate) || defined($whoisstate);
+  Net::DRI::Exception::usererr_invalid_parameters('change of nameservers, contacts, lock state, whois protection and auto renewal is supported, but not in the same operation') if defined($contactset) || defined($lockstate) || defined($whoisstate) || defined($setrenewal);
   Net::DRI::Exception::usererr_insufficient_parameters('at least 2 nameservers are mandatory') unless ($nsset->count()>=2);
 
   build_msg_cookie($msg,'advanced_update_nameservers',$rd->{cookie},$rd->{registrant_ip});
@@ -327,7 +330,7 @@ sub update
   build_msg_cookie($msg,'update_contacts',$rd->{cookie},$rd->{registrant_ip});
 
   Net::DRI::Exception::usererr_invalid_parameters('contact changes for set must be a Net::DRI::Data::ContactSet') unless Net::DRI::Util::isa_contactset($contactset);
-  Net::DRI::Exception::usererr_invalid_parameters('change of nameservers, contacts, lock state and whois protection is supported, but not in the same operation') if defined($lockstate) || defined($whoisstate);
+  Net::DRI::Exception::usererr_invalid_parameters('change of nameservers, contacts, lock state, whois protection and auto renewal is supported, but not in the same operation') if defined($lockstate) || defined($whoisstate) || defined($setrenewal);
 
   my %contact_set = ();
   my $types = [];
@@ -348,8 +351,8 @@ sub update
  elsif (defined($lockstate))
  {
   build_msg_cookie($msg,'modify',$rd->{cookie},$rd->{registrant_ip});
-  
-  Net::DRI::Exception::usererr_invalid_parameters('change of nameservers, contacts, lock state and whois protection is supported, but not in the same operation') if defined($whoisstate);
+
+  Net::DRI::Exception::usererr_invalid_parameters('change of nameservers, contacts, lock state, whois protection and auto renewal is supported, but not in the same operation') if defined($whoisstate) || defined($setrenewal);
 
   $attr->{affect_domains} = 0;
   $attr->{data} = "status";
@@ -359,11 +362,24 @@ sub update
  {
   build_msg_cookie($msg,'modify',$rd->{cookie},$rd->{registrant_ip});
 
+  Net::DRI::Exception::usererr_invalid_parameters('change of nameservers, contacts, lock state, whois protection and auto renewal is supported, but not in the same operation') if defined($setrenewal);
+
   $attr->{affect_domains} = 0;
   $attr->{data} = "whois_privacy_state";
   $attr->{state} = $whoisstate;
- } else {
-  Net::DRI::Exception::usererr_invalid_parameters('only change of nameservers, contacts, lock state and whois protection is supported');
+ }
+ elsif (defined($setrenewal))
+ {
+  build_msg_cookie($msg,'modify',$rd->{cookie},$rd->{registrant_ip});
+
+  $attr->{affect_domains} = 0;
+  $attr->{data} = "expire_action";
+  $attr->{auto_renew} = $setrenewal;
+  $attr->{let_expire} = 0;
+ }
+ else
+ {
+  Net::DRI::Exception::usererr_invalid_parameters('only change of nameservers, contacts, lock state, whois protection and auto renewal is supported');
  }
 }
 

@@ -74,7 +74,7 @@ sub register_commands {
        my %tmp = (
                nocommand        => [ \&extonly,          undef ],
                delete           => [ \&delete,           undef ],
-               transfer_request => [ \&transfer_request, undef ],
+               transfer_request => [ \&transfer_request, \&extonly_parse_result ],
 
        );
 
@@ -208,6 +208,24 @@ sub transfer_request {
                [ 'at-ext-domain:entry', \%entryname, $registrarinfo ] );
 
 }
+
+
+sub extonly_parse_result {
+    my ($po,$otype,$oaction,$oname,$rinfo)=@_;
+    my $mes=$po->message();
+    return unless $mes->is_success();
+
+    my $keydatedata=$mes->get_extension($NS,'keydate');
+    return unless defined $keydatedata;
+
+    my $keydate = $keydatedata->textContent();
+    return unless defined $keydate;
+
+    $rinfo->{domain}->{$oname}->{keydate}=$keydate;
+
+    return;
+}
+
 
 ####################################################################################################
 1;

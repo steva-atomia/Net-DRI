@@ -71,45 +71,67 @@ sub register_commands
 {
  my ($class,$version)=@_;
  my %tmp=( 
-          notification => [ undef, \&parse ],
+          euretrieve => [ \&pollreq, \&parse_poll ],
+          eudelete => [ \&pollack, undef ],
          );
 
  return { 'message' => \%tmp };
 }
 
 ####################################################################################################
+sub pollack
+{
+ my ($epp,$msgid)=@_;
+ my $mes=$epp->message();
+ $mes->command([['poll',{op=>'ack',msgID=>$msgid}]]);
+}
 
-sub parse
+sub pollreq
+{
+ my ($epp,$msgid)=@_;
+ Net::DRI::Exception::usererr_invalid_parameters('In EPP, you can not specify the message id you want to retrieve') if defined($msgid);
+ my $mes=$epp->message();
+ $mes->command([['poll',{op=>'req'}]]);
+}
+
+sub parse_poll
 {
  my ($po,$otype,$oaction,$oname,$rinfo)=@_;
  my $mes=$po->message();
  return unless $mes->is_success();
 
- my $poll=$mes->get_response('eurid','pollRes');
+ my $msgid=$mes->msg_id();
+ my $poll=$mes->get_response('poll','pollData');
  return unless defined $poll;
 
- my $action;
+ my %n;
  foreach my $el (Net::DRI::Util::xml_list_children($poll))
  {
   my ($name,$c)=@$el;
-  if ($name eq 'action')
+  if ($name=~m/^(context|object|action|code|detail|objectType|objectUnicode|registrar)$/)
   {
-   $action=lc($c->textContent());
-  } elsif ($name eq 'domainname')
-  {
-   $oname=$c->textContent();
-  } elsif ($name eq 'returncode')
-  {
-   $rinfo->{domain}->{$oname}->{return_code}=$c->textContent();
-  } elsif ($name eq 'type')
-  {
-   $action.='_'.lc($c->textContent());
+   $n{$1}=$c->textContent();
   }
  }
 
- $rinfo->{domain}->{$oname}->{action}=$action;
- $rinfo->{domain}->{$oname}->{exist}=1;
- $rinfo->{domain}->{$oname}->{result}=($action=~m/^confirm_/)? 1 : 0; ## TODO: is this a good test ?
+ if ($n{context}=~m/^(?:DOMAIN|TRANSFER|DYNUPDATE|RESERVED_ACTIVATION|LEGAL|REGISTRY_LOCK|OBJECT_CLEANUP|REGISTRATION_LIMIT)$/)
+ {
+  $rinfo->{message}->{$msgid}->{context}=$n{context};
+  $rinfo->{message}->{$msgid}->{notification_code}=$n{code};
+  $rinfo->{message}->{$msgid}->{action}=$n{action};
+  $rinfo->{message}->{$msgid}->{detail}=$n{detail} if exists $n{detail};
+  $rinfo->{message}->{$msgid}->{object_type}=$n{objectType};
+  $rinfo->{message}->{$msgid}->{object_id}=$n{object} if exists $n{object};
+  $rinfo->{message}->{$msgid}->{object_unicode}=$n{objectUnicode} if exists $n{objectUnicode};
+  $rinfo->{message}->{$msgid}->{registrar}=$n{registrar} if exists $n{registrar};
+  $rinfo->{message}->{session}->{last_id}=$msgid;
+ } else
+ {
+  $n{level} = $n{object} if $n{context} eq 'WATERMARK'; # it used to be called level, so this is for backwards compat
+  $rinfo->{session}->{notification}=\%n;
+ }
+
+ return;
 }
 
 ####################################################################################################

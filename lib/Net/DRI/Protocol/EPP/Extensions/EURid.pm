@@ -75,16 +75,18 @@ sub setup
  my $version=$self->version();
 
  my $default_ns_versions = {
-		'domain-ext_version' => '2.1',
-		'domain-ext_version_xsd' => '2.1',
-		'contact-ext_version' => '1.1',
-		'contact-ext_version_xsd' => '1.1',
+		'domain-ext_version' => '2.2',
+		'domain-ext_version_xsd' => '2.2',
+		'contact-ext_version' => '1.2',
+		'contact-ext_version_xsd' => '1.2',
 		'nsgroup_version' => '1.1',
 		'nsgroup_version_xsd' => '1.1',
 		'registrar_version' => '1.0',
-		'registrar_version_xsd' => '1.1'
+		'registrar_version_xsd' => '1.1',
+		'poll_version' => '1.2',
+		'poll_version_xsd' => '1.2'
 	};
- foreach my $w (qw/contact-ext nsgroup domain-ext registrar/)
+ foreach my $w (qw/contact-ext nsgroup domain-ext registrar poll/)
  {
 	my $v = (defined($params) && ref($params) eq "HASH" && defined($params->{$w."_version"})) ? $params->{$w."_version"} : $default_ns_versions->{$w."_version"};
 	my $v_xsd = (defined($params) && ref($params) eq "HASH" && defined($params->{$w."_version_xsd"})) ? $params->{$w."_version_xsd"} : $default_ns_versions->{$w."_version_xsd"};

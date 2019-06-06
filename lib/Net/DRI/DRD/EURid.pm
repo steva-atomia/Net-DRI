@@ -199,5 +199,19 @@ sub domain_remind
  return $rc;
 }
 
+sub message_retrieve
+{
+ my ($self,$ndr,$id)=@_;
+ my $rc=$ndr->process('message','euretrieve',[$id]);
+ return $rc;
+}
+
+sub message_delete
+{
+ my ($self,$ndr,$id)=@_;
+ my $rc=$ndr->process('message','eudelete',[$id]);
+ return $rc;
+}
+
 #################################################################################################################
 1;

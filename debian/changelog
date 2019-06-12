@@ -1,4 +1,7 @@
-libnet-dri-perl (0.96-64atomia) unstable; urgency=low
+libnet-dri-perl (0.96-65atomia) unstable; urgency=low
+  * Added transfer extra data parsing support for AT plugin
+  * EURid release march 2019
+  * Improve domain_update function for OpenSRS to also be able to update auto_renew.
   * Fixed EURid EPP connection issues
   * Fixed poll command parsing
   * Fixed OpenSRS contact fax regex

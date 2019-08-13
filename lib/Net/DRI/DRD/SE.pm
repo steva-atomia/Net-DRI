@@ -85,7 +85,7 @@ sub new
 }
 
 sub name     { return 'se'; }
-sub tlds     { return ('SE'); }
+sub tlds     { return ('SE', 'TEST'); }
 sub periods  { return map { DateTime::Duration->new(months => $_) } (12..120); }
 sub object_types { return ('domain','contact','ns'); }
 sub profile_types { return qw/epp whois/; }
